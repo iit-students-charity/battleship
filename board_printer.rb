@@ -19,7 +19,7 @@ class BoardPrinter
         print('@') if cell.ship?
         print('߸') if cell.fired?
         print('_') if cell.adjoined?
-        print('🔥') if cell.fired_ship?
+        print('🔥') if cell.damaged_ship?
         print('|')
       end
       puts
@@ -40,7 +40,7 @@ class BoardPrinter
         print('_') if cell.ship?
         print('߸') if cell.fired?
         print('_') if cell.adjoined?
-        print('🔥') if cell.fired_ship?
+        print('🔥') if cell.damaged_ship?
         print('|')
       end
       puts

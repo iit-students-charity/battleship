@@ -23,8 +23,12 @@ class Cell
     @type = :fired
   end
 
-  def fired_ship!
-    @type = :fired_ship
+  def damaged_ship!
+    @type = :damaged_ship
+  end
+
+  def destroyed_ship!
+    @type = :destroyed_ship
   end
 
   def adjoined?
@@ -43,7 +47,11 @@ class Cell
     @type == :fired
   end
 
-  def fired_ship?
-    @type == :fired_ship
+  def damaged_ship?
+    @type == :damaged_ship
+  end
+
+  def destroyed_ship?
+    @type == :destroyed_ship
   end
 end

@@ -6,11 +6,12 @@ class Board
     @size_y = size_y
     @cells = []
     @ships = []
+    @shots = []
     set_board
   end
 
   def set_ship(ship)
-    raise IncorrectPlace unless check_ship(ship.coordinates)
+    raise IncorrectPlaceException unless check_ship(ship.coordinates)
     @ships << ship
     ship.coordinates.each do |pair|
       cell(pair.first, pair.last).ship!
@@ -24,7 +25,17 @@ class Board
   end
 
   def shot(x, y)
-
+    if cell(x, y).ship?
+      cell(x, y).damaged_ship!
+      return :hit
+    end
+    if
+      cell(x, y).empty? || cell(x, y).adjoined?
+      cell(x, y).fired!
+      :miss
+    else
+      :incorrect
+    end
   end
 
   private
@@ -41,7 +52,6 @@ class Board
 
   def cell(x, y)
     @cells.select { |cell| cell.x == x && cell.y == y }.first
-
   end
 
   def set_board

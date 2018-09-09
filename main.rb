@@ -5,6 +5,7 @@ require_relative 'board_printer'
 require_relative 'player'
 require_relative 'bot'
 
+
 # require 'pry'; binding.pry
 
 
@@ -21,6 +22,7 @@ SHIPS = [ Ship.new(6, 2, :right, 4),
 
 board = Board.new
 SHIPS.each { |ship| board.set_ship(ship) }
+board.shot(1, 1)
 BoardPrinter.new(board).print_ours
 
 
