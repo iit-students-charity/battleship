@@ -40,7 +40,7 @@ private:
   
   def shot_ship
     @cell.damaged_ship!
-    @status = :hit
+    @cell.ship.damage
   end
 
   def miss

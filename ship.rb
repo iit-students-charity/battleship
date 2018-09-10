@@ -1,12 +1,21 @@
 class Ship
-  attr_reader :orientation, :length, :cells
+  attr_reader :orientation, :length, :cells, :health
 
   def initialize(x, y, orientation, length)
     @x = x
     @y = y
     @orientation = orientation
     @length = length
+    @health = length
     create_cells
+  end
+
+  def damage
+    if @health > 0
+      @health -= 1
+    else
+      destroy
+    end
   end
 
   def up?
@@ -44,5 +53,9 @@ private:
     @length.times do |number|
       coordinates << [@x + number, y]
     end
+  end
+
+  def destroy
+    @cells.map(&:destroyed_ship!)
   end
 end
