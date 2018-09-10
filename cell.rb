@@ -12,6 +12,9 @@ class Cell
     (-1..1).each do |i|
       (-1..1).each do |j|
         coordinates << [x + i, i + j] unless i == 0 && j == 0
+      end
+    end
+    coordinates
   end
 
   def adjoin!
@@ -43,7 +46,7 @@ class Cell
   end
 
   def empty?
-    @type == :empty
+    @type == :empty || @type == :adjoined
   end
 
   def ship?
