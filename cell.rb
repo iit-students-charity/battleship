@@ -7,6 +7,13 @@ class Cell
     @type = type
   end
 
+  def adjoined_cells_coords
+    coordinates = []
+    (-1..1).each do |i|
+      (-1..1).each do |j|
+        coordinates << [x + i, i + j] unless i == 0 && j == 0
+  end
+
   def adjoin!
     @type = :adjoined
   end
