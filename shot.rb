@@ -14,8 +14,8 @@ class Shot
     @status == :hit
   end
 
-  def kill?
-    @status == :kill
+  def destroy?
+    @status == :destroy
   end
 
   def incorrect?
@@ -26,21 +26,24 @@ class Shot
     @status == :not_performed
   end
 
-  def perform_shot
+  def perform
     shot_ship if @cell.ship?
     if @cell.empty? 
       miss
     else
       @status = :incorrect
     end
-    @cell
   end
 
 private:
   
   def shot_ship
-    @cell.damaged_ship!
-    @cell.ship.damage
+    @cell.ship.damage(@cell.x, @cell.y)
+    if @cell.ship.destroyed?
+      @status = :destroy
+    else
+      @status = :hit
+    end
   end
 
   def miss

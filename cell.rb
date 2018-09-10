@@ -7,7 +7,7 @@ class Cell
     @type = type
   end
 
-  def adjoined_cells_coords
+  def adjoined_coordinates
     coordinates = []
     (-1..1).each do |i|
       (-1..1).each do |j|

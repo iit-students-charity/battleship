@@ -1,21 +1,25 @@
 class Ship
-  attr_reader :orientation, :length, :cells, :health
+  attr_reader :orientation, :length, :cells
 
   def initialize(x, y, orientation, length)
     @x = x
     @y = y
     @orientation = orientation
     @length = length
-    @health = length
     create_cells
   end
 
-  def damage
-    if @health > 0
-      @health -= 1
-    else
-      destroy
-    end
+  def damage(x, y)
+    cell(x, y).damaged_ship!
+    destroy if health <= 0
+  end
+
+  def destroyed?
+    health <= 0
+  end
+
+  def health
+    @cells.reduce { |cell| cell.damaged_ship? }.count
   end
 
   def up?
