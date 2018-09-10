@@ -1,11 +1,12 @@
 class Ship
-  attr_reader :x, :y, :direction, :length
+  attr_reader :x, :y, :direction, :length, :cells
 
   def initialize(x, y, direction, length)
     @x = x
     @y = y
     @direction = direction
     @length = length
+    create_cells
   end
 
   def coordinates
@@ -22,4 +23,11 @@ class Ship
     end
     coordinates
   end
+
+private:
+  
+  def create_cells
+    @cells = coordinates.map { |pair| Cell.new(pair.first, pair.last, :ship) }
+  end
+
 end

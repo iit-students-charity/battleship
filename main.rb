@@ -21,9 +21,11 @@ SHIPS = [ Ship.new(6, 2, :right, 4),
           Ship.new(4, 10, :right, 1) ]
 
 board = Board.new
-SHIPS.each { |ship| board.set_ship(ship) }
-board.shot(1, 1)
-BoardPrinter.new(board).print_ours
+bot = Bot.new(board)
+SHIPS.each { |ship| bot.set_ship_randomly(ship.length) }
+# board.shot(1, 1)
+# BoardPrinter.new(board).print_ours
+bot.print
 
 
 

@@ -13,8 +13,8 @@ class Board
   def set_ship(ship)
     raise IncorrectPlaceException unless check_ship(ship.coordinates)
     @ships << ship
-    ship.coordinates.each do |pair|
-      cell(pair.first, pair.last).ship!
+    ship.cells.each do |cell|
+      cell(cell.x, cell.y) = cell #?
     end
     set_adjoined(ship.coordinates)
   end
