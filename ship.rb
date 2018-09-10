@@ -1,25 +1,65 @@
 class Ship
-  attr_reader :x, :y, :direction, :length
+  attr_reader :orientation, :length, :cells
 
-  def initialize(x, y, direction, length)
+  def initialize(x, y, orientation, length)
     @x = x
     @y = y
-    @direction = direction
+    @orientation = orientation
     @length = length
+    create_cells
   end
 
-  def coordinates
+  def damage(x, y)
+    cell(x, y).damaged_ship!
+    destroy if health <= 0
+  end
+
+  def destroyed?
+    health <= 0
+  end
+
+  def health
+    @cells.reduce { |cell| cell.damaged_ship? }.count
+  end
+
+  def up?
+    @orientation == :up
+  end
+
+  def right?
+    @orientation == :right
+  end
+
+private:
+
+  def cells_coordinates
+    coordinates = up? ? up_coordinates : right_coordinates
+  end
+  
+  def create_cells
+    @cells = []
+    @cells << cells_coordinates.each do |pair| 
+      cell = Cell.new(pair.first, pair.last)
+      cell.ship!(self)
+      cell
+    end
+  end
+
+  def up_coordinates
     coordinates = []
-    if direction == :up
-      length.times do |number|
-        coordinates << [x, y - number]
-      end
+    @length.times do |number|
+      coordinates << [@x, @y - number]
     end
-    if direction == :right
-      length.times do |number|
-        coordinates << [x + number, y]
-      end
+  end
+
+  def right_coordinates
+    coordinates = []
+    @length.times do |number|
+      coordinates << [@x + number, y]
     end
-    coordinates
+  end
+
+  def destroy
+    @cells.map(&:destroyed_ship!)
   end
 end

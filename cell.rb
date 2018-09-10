@@ -1,5 +1,5 @@
 class Cell
-  attr_reader :x, :y, :type
+  attr_reader :x, :y, :type, :ship
 
   def initialize(x, y, type = :empty)
     @x = x
@@ -7,20 +7,34 @@ class Cell
     @type = type
   end
 
+  def adjoined_coordinates
+    coordinates = []
+    (-1..1).each do |i|
+      (-1..1).each do |j|
+        coordinates << [x + i, i + j] unless i == 0 && j == 0
+      end
+    end
+    coordinates
+  end
+
   def adjoin!
     @type = :adjoined
+    @ship = nil
   end
 
   def empty!
     @type = :empty
+    @ship = nil
   end
 
-  def ship!
+  def ship!(ship)
     @type = :ship
+    @ship = ship
   end
 
   def fired!
     @type = :fired
+    @ship = nil
   end
 
   def damaged_ship!
@@ -36,7 +50,7 @@ class Cell
   end
 
   def empty?
-    @type == :empty
+    @type == :empty || @type == :adjoined
   end
 
   def ship?
