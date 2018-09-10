@@ -1,5 +1,5 @@
 class Ship
-  attr_reader :x, :y, :orientation, :length, :cells
+  attr_reader :orientation, :length, :cells
 
   def initialize(x, y, orientation, length)
     @x = x
@@ -24,7 +24,12 @@ private:
   end
   
   def create_cells
-    @cells = cells_coordinates.map { |pair| Cell.new(pair.first, pair.last, :ship) }
+    @cells = []
+    @cells << cells_coordinates.each do |pair| 
+      cell = Cell.new(pair.first, pair.last)
+      cell.ship!(self)
+      cell
+    end
   end
 
   def up_coordinates

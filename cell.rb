@@ -1,5 +1,5 @@
 class Cell
-  attr_reader :x, :y, :type
+  attr_reader :x, :y, :type, :ship
 
   def initialize(x, y, type = :empty)
     @x = x
@@ -19,18 +19,22 @@ class Cell
 
   def adjoin!
     @type = :adjoined
+    @ship = nil
   end
 
   def empty!
     @type = :empty
+    @ship = nil
   end
 
-  def ship!
+  def ship!(ship)
     @type = :ship
+    @ship = ship
   end
 
   def fired!
     @type = :fired
+    @ship = nil
   end
 
   def damaged_ship!
