@@ -1,4 +1,4 @@
-class BoardPrinter
+class Printer
   attr_reader :board
 
   def initialize(board)

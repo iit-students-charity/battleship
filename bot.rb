@@ -27,9 +27,10 @@ class Bot
       y = rand(0..@board.size_y)
       direction = [:up, :right].sample
       @board.set_ship(Ship.new(x, y, direction, length))
-    rescue IncorrectPlaceException(length)
-      (retries += 1) < 100 ? retry : puts("Bot cannot place ship with #{length} cells :(")
+    rescue IncorrectPlaceException => exception
+      (retries += 1) < 100 ? retry : puts(exception.message)
     end
+    binding.pry
   end
 
   def shot
@@ -48,5 +49,17 @@ class Bot
     else
       [rand(0..@board.size_x), rand(0..@board.size_y)]
     end
+  end
+end
+
+class IncorrectPlaceException < StandardError
+  def initialize(message = default_message)
+    @message = message
+  end
+
+  private
+
+  def default_message
+    "Error. This ship cannot be placed."
   end
 end

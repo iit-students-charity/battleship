@@ -30,18 +30,18 @@ class Ship
     @orientation == :right
   end
 
-private:
+  private
 
   def cells_coordinates
-    coordinates = up? ? up_coordinates : right_coordinates
+    up? ? up_coordinates : right_coordinates
   end
   
   def create_cells
     @cells = []
-    @cells << cells_coordinates.each do |pair| 
+    cells_coordinates.each do |pair|
       cell = Cell.new(pair.first, pair.last)
       cell.ship!(self)
-      cell
+      @cells << cell
     end
   end
 
@@ -50,13 +50,15 @@ private:
     @length.times do |number|
       coordinates << [@x, @y - number]
     end
+    coordinates
   end
 
   def right_coordinates
     coordinates = []
     @length.times do |number|
-      coordinates << [@x + number, y]
+      coordinates << [@x + number, @y]
     end
+    coordinates
   end
 
   def destroy

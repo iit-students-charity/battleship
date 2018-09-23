@@ -13,7 +13,8 @@ class Board
     raise IncorrectPlaceException unless check_ship(ship.cells)
     @ships << ship
     ship.cells.each do |cell|
-      cell(cell.x, cell.y) = cell #?
+      kek = cell(cell.x, cell.y)
+      kek = cell #?
     end
     set_adjoined(ship.cells)
   end
@@ -27,7 +28,7 @@ class Board
   private
 
   def check_ship(cells)
-    cells.each { |cell| return false if cell(cell.x, cell.y).ship? || cell(cell.x, cell.y).adjoined? }
+    cells.each { |cell| return false if cell(cell.x, cell.y)&.ship? || cell(cell.x, cell.y)&.adjoined? }
     cells.map(&:x).each { |x| return false if x > size_x || x < 1 }
     cells.map(&:y).each { |y| return false if y > size_y || y < 1 }
     true
@@ -49,7 +50,7 @@ class Board
   def set_adjoined(cells)
     cells.each do |cell|
       cell.adjoined_coordinates.each do |pair| 
-      	cell(pair.first, pair.last).adjoin! if !cell(pair.first, pair.last).ship?
+      	cell(pair.first, pair.last)&.adjoin! unless cell(pair.first, pair.last)&.ship?
       end
     end
   end

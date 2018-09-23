@@ -5,6 +5,8 @@ require_relative 'board_printer'
 require_relative 'player'
 require_relative 'bot'
 
+require 'pry'
+
 
 # require 'pry'; binding.pry
 
