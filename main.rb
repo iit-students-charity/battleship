@@ -28,13 +28,13 @@ bot = Bot.new(bot_board)
 
 SHIPS.each do |ship|
   # player.set_ship(ship)
-  bot.set_ship_randomly(ship.length)
+  bot.set_ship(ship.length)
 end
 
 bot.print
 # player.print
 
-
+# refactor bot
 # shot
 # random_shot
 # bot shooting

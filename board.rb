@@ -19,6 +19,19 @@ class Board
     set_adjoined(ship.cells)
   end
 
+  def set_ship_randomly(length)
+    success = false
+    retries.times do
+      ship = random_ship(length)
+      if check_ship(ship.cells)
+        set_ship(ship)
+        success = true
+        break
+      end
+    end
+    raise IncorrectPlaceException unless success
+  end
+
   def shot(x, y)
     shot = Shot.new(cell(x, y))
     shot.perform
@@ -32,6 +45,13 @@ class Board
     cells.map(&:x).each { |x| return false if x > size_x || x < 1 }
     cells.map(&:y).each { |y| return false if y > size_y || y < 1 }
     true
+  end
+
+  def random_ship(length)
+    x = rand(0..size_x)
+    y = rand(0..size_y)
+    direction = [:up, :right].sample
+    Ship.new(x, y, direction, length)
   end
 
   def cell(x, y)
@@ -53,5 +73,9 @@ class Board
       	cell(pair.first, pair.last)&.adjoin! unless cell(pair.first, pair.last)&.ship?
       end
     end
+  end
+
+  def retries
+    (size_x + size_y) * 5
   end
 end

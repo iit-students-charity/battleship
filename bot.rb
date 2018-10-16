@@ -11,6 +11,7 @@ class Bot
 
   extend Forwardable
   def_delegator :@printer, :print_enemy, :print
+  def_delegator :@board, :set_ship_randomly, :set_ship
 
   def increace_score(value = 100)
     @score += value
@@ -18,18 +19,6 @@ class Bot
 
   def decreace_score(value = 10)
     @score -= value
-  end
-
-  def set_ship_randomly(length)
-    begin
-      retries ||= 0
-      x = rand(0..@board.size_x)
-      y = rand(0..@board.size_y)
-      direction = [:up, :right].sample
-      @board.set_ship(Ship.new(x, y, direction, length))
-    rescue IncorrectPlaceException => exception
-      (retries += 1) < 100 ? retry : puts(exception.message)
-    end
   end
 
   def shot
