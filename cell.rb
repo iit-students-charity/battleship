@@ -50,7 +50,7 @@ class Cell
   end
 
   def empty?
-    @type == :empty || @type == :adjoined
+    @type == :empty
   end
 
   def ship?

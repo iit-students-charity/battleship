@@ -21,16 +21,20 @@ SHIPS = [ Ship.new(6, 2, :right, 4),
           Ship.new(3, 8, :right, 1),
           Ship.new(4, 10, :right, 1) ]
 
-# bot_board = Board.new
-# bot = Bot.new(bot_board)
-player_board = Board.new
-player = Player.new(player_board)
+bot_board = Board.new
+bot = Bot.new(bot_board)
+# player_board = Board.new
+# player = Player.new(player_board)
 
 SHIPS.each do |ship|
-  player.set_ship(ship)
-  #bot.set_ship_randomly(ship.length)
+  # player.set_ship(ship)
+  bot.set_ship_randomly(ship.length)
 end
 
-# bot.print
-player.print
+bot.print
+# player.print
 
+
+# shot
+# random_shot
+# bot shooting
