@@ -11,7 +11,7 @@ class Cell
     coordinates = []
     (-1..1).each do |i|
       (-1..1).each do |j|
-        coordinates << [x + i, i + j] unless i == 0 && j == 0
+        coordinates << [x + i, y + j] unless i == 0 && j == 0
       end
     end
     coordinates

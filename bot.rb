@@ -30,7 +30,6 @@ class Bot
     rescue IncorrectPlaceException => exception
       (retries += 1) < 100 ? retry : puts(exception.message)
     end
-    binding.pry
   end
 
   def shot

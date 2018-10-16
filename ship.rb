@@ -1,5 +1,5 @@
 class Ship
-  attr_reader :orientation, :length, :cells
+  attr_reader :orientation, :length, :cells, :x, :y
 
   def initialize(x, y, orientation, length)
     @x = x

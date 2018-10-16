@@ -13,8 +13,8 @@ class Board
     raise IncorrectPlaceException unless check_ship(ship.cells)
     @ships << ship
     ship.cells.each do |cell|
-      kek = cell(cell.x, cell.y)
-      kek = cell #?
+      index = @cells.index(cell(cell.x, cell.y))
+      @cells[index] = cell
     end
     set_adjoined(ship.cells)
   end
