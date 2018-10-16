@@ -23,27 +23,23 @@ class Shot
   end
 
   def not_performed?
-    @status == :not_performed
+    @status == :unperformed
   end
 
   def perform
-    shot_ship if @cell.ship?
-    if @cell.empty? 
+    shot_ship and return if @cell.ship?
+    if @cell.empty? || @cell.adjoined?
       miss
     else
       @status = :incorrect
     end
   end
 
-private:
+  private
   
   def shot_ship
     @cell.ship.damage(@cell.x, @cell.y)
-    if @cell.ship.destroyed?
-      @status = :destroy
-    else
-      @status = :hit
-    end
+    @status = @cell.ship.destroyed? ? :destroy : :hit
   end
 
   def miss

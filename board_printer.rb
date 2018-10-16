@@ -20,6 +20,7 @@ class Printer
         print('߸') if cell.fired?
         print('_') if cell.adjoined?
         print('🔥') if cell.damaged_ship?
+        print('X') if cell.destroyed_ship?
         print('|')
       end
       puts
@@ -41,6 +42,7 @@ class Printer
         print('߸') if cell.fired?
         print('_') if cell.adjoined?
         print('🔥') if cell.damaged_ship?
+        print('X') if cell.destroyed_ship?
         print('|')
       end
       puts

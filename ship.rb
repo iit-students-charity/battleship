@@ -19,7 +19,9 @@ class Ship
   end
 
   def health
-    @cells.reduce { |cell| cell.damaged_ship? }.count
+    health = @cells.map(&:damaged_ship?).select { |condition| !condition }.count
+    health = 0 if @cells.map(&:destroyed_ship?).include?(true)
+    health
   end
 
   def up?
@@ -31,6 +33,10 @@ class Ship
   end
 
   private
+
+  def cell(x, y)
+    @cells.select { |cell| cell.x == x && cell.y == y }.first
+  end
 
   def cells_coordinates
     up? ? up_coordinates : right_coordinates
