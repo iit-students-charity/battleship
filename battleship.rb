@@ -74,8 +74,6 @@ bot.print
 
 
 
-# bot shooting
-# rename main to game
 # main loop
 # remove pry
 # tests ?
