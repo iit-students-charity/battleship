@@ -38,6 +38,14 @@ class Board
     shot
   end
 
+  def random_shot
+    coordinates = random_shot_coordinates
+    shot = shot(*coordinates)
+    random_shot and return if shot.incorrect?
+    @shots << shot
+    shot
+  end
+
   private
 
   def check_ship(cells)
@@ -52,6 +60,10 @@ class Board
     y = rand(0..size_y)
     direction = [:up, :right].sample
     Ship.new(x, y, direction, length)
+  end
+
+  def random_shot_coordinates
+    [rand(1..size_x), rand(1..size_y)]
   end
 
   def cell(x, y)

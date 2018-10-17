@@ -27,8 +27,8 @@ class Shot
   end
 
   def perform
-    shot_ship and return if @cell.ship?
-    if @cell.empty? || @cell.adjoined?
+    shot_ship and return if @cell&.ship?
+    if @cell&.empty? || @cell&.adjoined?
       miss
     else
       @status = :incorrect
