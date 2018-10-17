@@ -10,9 +10,11 @@ class Bot
   end
 
   extend Forwardable
-  def_delegator :@printer, :print_enemy, :print
-  def_delegator :@board, :set_ship_randomly, :set_ship
   def_delegator :@board, :random_shot, :shot
+  def_delegator :@board, :set_ship
+  def_delegator :@board, :set_ship_randomly
+  def_delegator :@printer, :print_open, :print
+  def_delegator :@printer, :print_hidden
 
   def increace_score(value = 100)
     @score += value

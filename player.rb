@@ -12,7 +12,9 @@ class Player
   extend Forwardable
   def_delegator :@board, :shot
   def_delegator :@board, :set_ship
-  def_delegator :@printer, :print_ours, :print
+  def_delegator :@board, :set_ship_randomly
+  def_delegator :@printer, :print_open, :print
+  def_delegator :@printer, :print_hidden
 
   def increace_score(value = 100)
     @score += value
