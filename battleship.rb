@@ -27,7 +27,7 @@ bot = Bot.new(bot_board)
 
 SHIPS.each do |ship|
   # player.set_ship(ship)
-  bot.set_ship(ship.length)
+  bot.set_ship_randomly(ship.length)
 end
 
 # player.print
@@ -73,7 +73,7 @@ bot.print
 
 
 
-
+# printer
 # main loop
 # remove pry
 # tests ?

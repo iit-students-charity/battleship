@@ -16,11 +16,11 @@ class Printer
       board.size_x.times do |x|
         cell = board.cells.select { |cell| cell.x == x + 1 && cell.y == y + 1 }.first
         print('_') if cell.empty?
-        print('@') if cell.ship?
+        print('⛵') if cell.ship?
         print('߸') if cell.fired?
         print('_') if cell.adjoined?
-        print('🔥') if cell.damaged_ship?
-        print('X') if cell.destroyed_ship?
+        print('✗') if cell.damaged_ship?
+        print('🔥') if cell.destroyed_ship?
         print('|')
       end
       puts
@@ -41,8 +41,8 @@ class Printer
         print('_') if cell.ship?
         print('߸') if cell.fired?
         print('_') if cell.adjoined?
-        print('🔥') if cell.damaged_ship?
-        print('X') if cell.destroyed_ship?
+        print('✗') if cell.damaged_ship?
+        print('🔥') if cell.destroyed_ship?
         print('|')
       end
       puts
