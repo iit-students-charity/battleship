@@ -5,7 +5,7 @@ class Printer
     @board = board
   end
 
-  def print_ours
+  def print_open
     (board.size_x + 3).times { |number| number > 2 ? print(number - 2, ' ') : print(' ') }
     puts
     (board.size_x * 2 + 3).times { |number| number > 1 ? print('_') : print(' ') }
@@ -27,7 +27,7 @@ class Printer
     end
   end
 
-  def print_enemy
+  def print_hidden
     (board.size_x + 3).times { |number| number > 2 ? print(number - 2, ' ') : print(' ') }
     puts
     (board.size_x * 2 + 3).times { |number| number > 1 ? print('_') : print(' ') }
