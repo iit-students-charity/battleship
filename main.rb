@@ -30,13 +30,39 @@ SHIPS.each do |ship|
   bot.set_ship(ship.length)
 end
 
-bot.print
 # player.print
 # player.shot(1, 1)
 # player.shot(2, 2)
 # player.shot(3, 2)
 # player.print
 
+bot.shot
+bot.shot
+bot.shot
+bot.shot
+bot.shot
+bot.shot
+bot.shot
+bot.shot
+bot.shot
+bot.shot
+bot.shot
+bot.shot
+bot.shot
+bot.shot
+bot.shot
+bot.shot
+bot.shot
+bot.shot
+bot.shot
+bot.shot
+bot.shot
+bot.shot
+bot.shot
+bot.shot
+bot.shot
+bot.shot
+bot.shot
 bot.shot
 bot.shot
 bot.shot

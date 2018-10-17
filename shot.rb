@@ -1,5 +1,5 @@
 class Shot
-  attr_reader :status
+  attr_reader :status, :cell
 
   def initialize(cell)
     @cell = cell

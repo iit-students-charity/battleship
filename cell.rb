@@ -17,6 +17,10 @@ class Cell
     coordinates
   end
 
+  def surrounding_coordinates
+    [[@x + 1, @y], [@x - 1, @y], [@x, @y + 1], [@x, @y - 1]]
+  end
+
   def adjoin!
     @type = :adjoined
     @ship = nil

@@ -35,14 +35,14 @@ class Board
   def shot(x, y)
     shot = Shot.new(cell(x, y))
     shot.perform
+    @shots << shot
     shot
   end
 
   def random_shot
     coordinates = random_shot_coordinates
     shot = shot(*coordinates)
-    random_shot and return if shot.incorrect?
-    @shots << shot
+    random_shot if shot.incorrect?
     shot
   end
 
@@ -56,18 +56,56 @@ class Board
   end
 
   def random_ship(length)
-    x = rand(0..size_x)
-    y = rand(0..size_y)
+    x = rand(1..size_x)
+    y = rand(1..size_y)
     direction = [:up, :right].sample
     Ship.new(x, y, direction, length)
   end
 
   def random_shot_coordinates
-    [rand(1..size_x), rand(1..size_y)]
+    if successful_shots.last&.hit?
+      extreme_coordinates
+    else
+      [rand(1..size_x), rand(1..size_y)]
+    end
+  end
+
+  def extreme_coordinates
+    if successful_shots[-2]&.hit?
+      shots = []
+      if last_hits.first.cell.x == last_hits.last.cell.x
+        last_hits.each do |shot|
+          shots << [last_hits.first.cell.x, shot.cell.y + 1]
+          shots << [last_hits.first.cell.x, shot.cell.y - 1]
+        end
+      end
+      if last_hits.first.cell.y == last_hits.last.cell.y
+        last_hits.each do |shot|
+          shots << [shot.cell.x + 1, last_hits.first.cell.y]
+          shots << [shot.cell.x - 1, last_hits.first.cell.y]
+        end
+      end
+      shots.sample
+    else
+      successful_shots.last.cell.surrounding_coordinates.sample
+    end
+  end
+
+  def last_hits
+    last_hits = []
+    successful_shots.each do |shot|
+      last_hits << shot
+      last_hits = [] unless shot.hit?
+    end
+    last_hits
   end
 
   def cell(x, y)
     @cells.select { |cell| cell.x == x && cell.y == y }.first
+  end
+
+  def successful_shots
+    @shots.select { |shot| shot.hit? || shot.destroy? }
   end
 
   def set_board
