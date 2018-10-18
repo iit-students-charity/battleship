@@ -8,6 +8,8 @@ require_relative 'exceptions'
 require_relative 'shot'
 require_relative 'game'
 
+require 'faker'
+
 require 'pry'
 
 SHIPS = [ Ship.new(6, 2, :right, 4),
@@ -23,7 +25,7 @@ SHIPS = [ Ship.new(6, 2, :right, 4),
 
 begin
   game = Game.new
-  game.menu
+  game.run
 end
 
 
@@ -81,9 +83,8 @@ end
 
 
 
-
-# printer
-# main loop
+# retries?
+#
 # remove pry
 # tests ?
 # readme

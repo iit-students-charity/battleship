@@ -6,16 +6,117 @@ class Game
     @settings = DEFAULT_SETTINGS
   end
 
+  def run
+    menu
+  end
+
+  private
+
+  def play
+    case @settings[:game_mode]
+    when :player_vs_bot
+      player_vs_bot
+    when :bot_vs_bot
+      bot_vs_bot
+    else
+      player_vs_player
+    end
+  end
+
+  def player_vs_bot
+    @player = Player.new(Board.new(@settings[:board_size], @settings[:board_size]), name)
+    @bot = Bot.new(Board.new(@settings[:board_size], @settings[:board_size]), Faker::GreekPhilosophers.name)
+    install_player_ships(@player)
+    install_ships_randomly(@bot)
+    
+  end
+
+  def player_vs_player
+
+  end
+
+  def bot_vs_bot
+
+  end
+
+  def install_player_ships(player)
+    system('clear')
+    puts "Install your ships, #{player.name}:"
+    print 'Do you want to set ships randomly? (y/n) '
+    case gets.chomp
+    when 'y'
+      begin
+        accept = false
+        until accept do
+          system('clear')
+          player.board.reset
+          install_ships_randomly(player)
+          player.print
+          print 'Do you accept this board? (y/n) '
+          accept = true if gets.chomp == 'y'
+        end
+      rescue IncorrectPlaceException
+        retry
+      end
+    else
+      install_ships(player)
+    end
+    system('clear')
+    puts 'Now your board looks like this:'
+    player.print
+  end
+
+  def install_bot_ships(bot)
+
+  end
+
+  def install_ships(player)
+    @settings[:ship_set].each do |decks, value|
+      length = decks.to_s[1].to_i
+      value.times do
+        begin
+          system('clear')
+          puts "Install your #{length}-deck ships:"
+          player.print
+          print 'Input x coordinate: '
+          x = gets.chomp.to_i
+          print 'Input y coordinate: '
+          y = gets.chomp.to_i
+          if decks.to_s[1].to_i > 1
+            print 'Input up or right direction (u/r): '
+            if gets.chomp == 'r'
+              direction = :right
+            else
+              direction = :up
+            end
+          else
+            direction = :up
+          end
+          player.set_ship(Ship.new(x, y, direction, length))
+        rescue IncorrectPlaceException
+          retry
+        end
+      end
+    end
+  end
+
+  def install_ships_randomly(player)
+    @settings[:ship_set].each do |decks, value|
+      length = decks.to_s[1].to_i
+      value.times { player.set_ship_randomly(length) }
+    end
+  end
+
   def menu(status = :correct)
     print_menu_prefix(status)
     print_menu
     print_menu_postfix(status)
-    case gets
-    when "1\n"
+    case gets.chomp
+    when "1"
       play
-    when "2\n"
+    when "2"
       settings
-    when "0\n"
+    when "0"
       system('clear')
       puts('Goodbye!')
       exit
@@ -28,29 +129,25 @@ class Game
     print_settings_prefix(status)
     print_settings
     print_settings_postfix(status)
-    case gets
-    when "1\n"
+    case gets.chomp
+    when "1"
       board_size
-    when "2\n"
+    when "2"
       ship_set
-    when "3\n"
+    when "3"
       game_mode
-    when "4\n"
+    when "4"
       default_settings
-    when "0\n"
+    when "0"
       menu(:settings_saved)
     else
       settings(:incorrect)
     end
   end
 
-  def play
-
-  end
-
   def board_size
     print_board_size
-    size = gets.to_i
+    size = gets.chomp.to_i
     @settings = size <= 20 ? size : 20
     settings(:board_size_updated)
   end
@@ -87,8 +184,6 @@ class Game
     @settings = DEFAULT_SETTINGS
     settings(:default_settings_set)
   end
-
-  private
 
   def print_menu
     puts('1 | Start')
@@ -159,5 +254,23 @@ class Game
   def print_ship_set
     system('clear')
     puts 'Choose ship set, think about them to fit the board!'
+  end
+
+  def name
+    print 'Input your name (leave blank to random): '
+    name = gets.chomp
+    name = name != '' ? name.capitalize : Faker::FunnyName.name
+    print "So, now you are #{name}, press any key to continue... "
+    gets
+    name
+  end
+
+  def bot_name
+    print 'Input bot name (leave blank to random): '
+    name = gets.chomp
+    name = name != '' ? name.capitalize : Faker::GreekPhilosophers.name
+    print "So, now this bot is #{name}, press any key to continue... "
+    gets
+    name
   end
 end
