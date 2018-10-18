@@ -1,10 +1,11 @@
 require 'forwardable'
 
 class Player
-  attr_reader :score, :board
+  attr_reader :score, :board, :name
 
-  def initialize(board)
+  def initialize(board, name = nil)
     @score = 0
+    @name = name
     @board = board
     @printer = Printer.new(@board)
   end

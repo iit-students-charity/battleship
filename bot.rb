@@ -3,8 +3,9 @@ require 'forwardable'
 class Bot
   attr_reader :score, :board
 
-  def initialize(board)
+  def initialize(board, name = nil)
     @score = 0
+    @name = name
     @board = board
     @printer = Printer.new(@board)
   end
