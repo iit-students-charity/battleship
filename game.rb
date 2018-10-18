@@ -28,7 +28,45 @@ class Game
     @bot = Bot.new(Board.new(@settings[:board_size], @settings[:board_size]), Faker::GreekPhilosophers.name)
     install_player_ships(@player)
     install_ships_randomly(@bot)
-    
+    turn = :player
+    loop do
+      system('clear')
+      break if @bot.defeated? || @player.defeated?
+      puts "#{@player.name} VS #{@bot.name}"
+      puts "#{@player.name} score: #{@player.score}"
+      puts "#{@bot.name} score: #{@bot.score}"
+      @player.print
+      @bot.print_hidden
+      if turn == :player
+        puts "#{@player.name} turn:"
+        puts 'Input x coordinate to shot: '
+        x = gets.chomp.to_i
+        puts 'Input y coordinate to shot: '
+        y = gets.chomp.to_i
+        shot = @bot.shot_on(x, y)
+        if shot.hit? || shot.destroy?
+          @player.increase_score
+        else
+          @player.decrease_score
+          turn = :bot
+        end
+        turn = :player if shot.incorrect?
+        next
+      else
+        shot = @player.random_shot_on
+        puts "#{@bot.name} turn, it shooted at #{shot.cell.x}, #{shot.cell.y}"
+        system('sleep 3')
+        if shot.hit? || shot.destroy?
+          @bot.increase_score
+        else
+          @bot.decrease_score
+          turn = :player
+        end
+        turn = :bot if shot.incorrect?
+        next
+      end
+    end
+    @player.defeated? ? print_winner(@bot) : print_winner(@player)
   end
 
   def player_vs_player
@@ -46,14 +84,13 @@ class Game
     case gets.chomp
     when 'y'
       begin
-        accept = false
-        until accept do
+        loop do
           system('clear')
           player.board.reset
           install_ships_randomly(player)
           player.print
           print 'Do you accept this board? (y/n) '
-          accept = true if gets.chomp == 'y'
+          break if gets.chomp == 'y'
         end
       rescue IncorrectPlaceException
         retry
@@ -112,11 +149,11 @@ class Game
     print_menu
     print_menu_postfix(status)
     case gets.chomp
-    when "1"
+    when '1'
       play
-    when "2"
+    when '2'
       settings
-    when "0"
+    when '0'
       system('clear')
       puts('Goodbye!')
       exit
@@ -130,15 +167,15 @@ class Game
     print_settings
     print_settings_postfix(status)
     case gets.chomp
-    when "1"
+    when '1'
       board_size
-    when "2"
+    when '2'
       ship_set
-    when "3"
+    when '3'
       game_mode
-    when "4"
+    when '4'
       default_settings
-    when "0"
+    when '0'
       menu(:settings_saved)
     else
       settings(:incorrect)
@@ -257,6 +294,7 @@ class Game
   end
 
   def name
+    system('clear')
     print 'Input your name (leave blank to random): '
     name = gets.chomp
     name = name != '' ? name.capitalize : Faker::FunnyName.name
@@ -266,11 +304,19 @@ class Game
   end
 
   def bot_name
+    system('clear')
     print 'Input bot name (leave blank to random): '
     name = gets.chomp
     name = name != '' ? name.capitalize : Faker::GreekPhilosophers.name
     print "So, now this bot is #{name}, press any key to continue... "
     gets
     name
+  end
+
+  def print_winner(player)
+    puts "#{player.name} win with #{player.score} score!"
+    print 'Press any key to return to main menu... '
+    gets
+    menu
   end
 end
