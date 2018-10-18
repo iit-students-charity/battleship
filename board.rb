@@ -1,5 +1,5 @@
 class Board
-  attr_reader :size_x, :size_y, :ships, :cells
+  attr_reader :size_x, :size_y, :ships, :cells, :shots
 
   def initialize(size_x = 10, size_y = 10)
     @size_x = size_x
@@ -42,7 +42,7 @@ class Board
   def random_shot
     coordinates = random_shot_coordinates
     shot = shot(*coordinates)
-    random_shot if shot.incorrect?
+    shot = random_shot if shot.incorrect?
     shot
   end
 
@@ -84,16 +84,17 @@ class Board
       shots = []
       if last_hits.first.cell.x == last_hits.last.cell.x
         last_hits.each do |shot|
-          shots << [last_hits.first.cell.x, shot.cell.y + 1]
-          shots << [last_hits.first.cell.x, shot.cell.y - 1]
+          shots << [last_hits.first.cell.x, shot.cell.y + 1] if shot.cell.y < size_y
+          shots << [last_hits.first.cell.x, shot.cell.y - 1] if shot.cell.y > 1
         end
       end
       if last_hits.first.cell.y == last_hits.last.cell.y
         last_hits.each do |shot|
-          shots << [shot.cell.x + 1, last_hits.first.cell.y]
-          shots << [shot.cell.x - 1, last_hits.first.cell.y]
+          shots << [shot.cell.x + 1, last_hits.first.cell.y] if shot.cell.x < size_x
+          shots << [shot.cell.x - 1, last_hits.first.cell.y] if shot.cell.x > 1
         end
       end
+      binding.pry if shots.map(&:last).include?(0)
       shots.sample
     else
       successful_shots.last.cell.surrounding_coordinates.sample
