@@ -25,6 +25,7 @@ class Printer
       end
       puts
     end
+    puts
   end
 
   def print_hidden
@@ -47,5 +48,6 @@ class Printer
       end
       puts
     end
+    puts
   end
 end
