@@ -11,7 +11,7 @@ class Bot
   end
 
   extend Forwardable
-  def_delegator :@board, :random_shot, :shot_on
+  def_delegator :@board, :shot, :shot_on
   def_delegator :@board, :set_ship
   def_delegator :@board, :set_ship_randomly
   def_delegator :@printer, :print_open, :print
