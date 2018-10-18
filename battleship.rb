@@ -6,6 +6,7 @@ require_relative 'player'
 require_relative 'bot'
 require_relative 'exceptions'
 require_relative 'shot'
+require_relative 'game'
 
 require 'pry'
 
@@ -20,55 +21,63 @@ SHIPS = [ Ship.new(6, 2, :right, 4),
           Ship.new(3, 8, :right, 1),
           Ship.new(4, 10, :right, 1) ]
 
-bot_board = Board.new
-bot = Bot.new(bot_board)
-# player_board = Board.new
-# player = Player.new(player_board)
-
-SHIPS.each do |ship|
-  # player.set_ship(ship)
-  bot.set_ship_randomly(ship.length)
+begin
+  game = Game.new
+  game.menu
 end
 
-# player.print
-# player.shot(1, 1)
-# player.shot(2, 2)
-# player.shot(3, 2)
-# player.print
-
-bot.shot
-bot.shot
-bot.shot
-bot.shot
-bot.shot
-bot.shot
-bot.shot
-bot.shot
-bot.shot
-bot.shot
-bot.shot
-bot.shot
-bot.shot
-bot.shot
-bot.shot
-bot.shot
-bot.shot
-bot.shot
-bot.shot
-bot.shot
-bot.shot
-bot.shot
-bot.shot
-bot.shot
-bot.shot
-bot.shot
-bot.shot
-bot.shot
-bot.shot
-bot.shot
-bot.print
 
 
+
+# bot_board = Board.new
+# bot = Bot.new(bot_board)
+# # player_board = Board.new
+# # player = Player.new(player_board)
+#
+# SHIPS.each do |ship|
+#   # player.set_ship(ship)
+#   bot.set_ship_randomly(ship.length)
+# end
+#
+# # player.print
+# # player.shot(1, 1)
+# # player.shot(2, 2)
+# # player.shot(3, 2)
+# # player.print
+#
+# bot.shot
+# bot.shot
+# bot.shot
+# bot.shot
+# bot.shot
+# bot.shot
+# bot.shot
+# bot.shot
+# bot.shot
+# bot.shot
+# bot.shot
+# bot.shot
+# bot.shot
+# bot.shot
+# bot.shot
+# bot.shot
+# bot.shot
+# bot.shot
+# bot.shot
+# bot.shot
+# bot.shot
+# bot.shot
+# bot.shot
+# bot.shot
+# bot.shot
+# bot.shot
+# bot.shot
+# bot.shot
+# bot.shot
+# bot.shot
+# bot.print
+#
+#
 
 
 
@@ -77,3 +86,4 @@ bot.print
 # main loop
 # remove pry
 # tests ?
+# readme
