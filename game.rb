@@ -55,7 +55,7 @@ class Game
       else
         shot = @player.random_shot_on
         puts "#{@bot.name} turn, it shooted at #{shot.cell.x}, #{shot.cell.y}"
-        system('sleep 3')
+        system('sleep 2')
         if shot.hit? || shot.destroy?
           @bot.increase_score
         else
@@ -74,7 +74,46 @@ class Game
   end
 
   def bot_vs_bot
-
+    @first_bot = Bot.new(Board.new(@settings[:board_size], @settings[:board_size]), bot_name)
+    @second_bot = Bot.new(Board.new(@settings[:board_size], @settings[:board_size]), bot_name)
+    install_ships_randomly(@first_bot)
+    install_ships_randomly(@second_bot)
+    turn = :first
+    loop do
+      system('clear')
+      break if @first_bot.defeated? || @second_bot.defeated?
+      puts "#{@first_bot.name} VS #{@second_bot.name}"
+      puts "#{@first_bot.name} score: #{@first_bot.score}"
+      puts "#{@second_bot.name} score: #{@second_bot.score}"
+      @first_bot.print
+      @second_bot.print
+      if turn == :first
+        shot = @second_bot.random_shot_on
+        puts "#{@first_bot.name} turn, it shooted at #{shot.cell.x}, #{shot.cell.y}"
+        system('sleep 0.3')
+        if shot.hit? || shot.destroy?
+          @first_bot.increase_score
+        else
+          @first_bot.decrease_score
+          turn = :second
+        end
+        turn = :first if shot.incorrect?
+        next
+      else
+        shot = @first_bot.random_shot_on
+        puts "#{@second_bot.name} turn, it shooted at #{shot.cell.x}, #{shot.cell.y}"
+        system('sleep 0.3')
+        if shot.hit? || shot.destroy?
+          @second_bot.increase_score
+        else
+          @second_bot.decrease_score
+          turn = :first
+        end
+        turn = :second if shot.incorrect?
+        next
+      end
+    end
+    @first_bot.defeated? ? print_winner(@first_bot) : print_winner(@second_bot)
   end
 
   def install_player_ships(player)
