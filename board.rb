@@ -6,7 +6,7 @@ class Board
     @size_y = size_y
     @ships = []
     @shots = []
-    set_board
+    reset
   end
 
   def set_ship(ship)
@@ -44,6 +44,15 @@ class Board
     shot = shot(*coordinates)
     random_shot if shot.incorrect?
     shot
+  end
+
+  def reset
+    @cells = []
+    size_x.times do |x|
+      size_y.times do |y|
+        @cells << Cell.new(x + 1, y + 1)
+      end
+    end
   end
 
   private
@@ -106,15 +115,6 @@ class Board
 
   def successful_shots
     @shots.select { |shot| shot.hit? || shot.destroy? }
-  end
-
-  def set_board
-  	@cells = []
-    size_x.times do |x|
-      size_y.times do |y|
-        @cells << Cell.new(x + 1, y + 1)
-      end
-    end
   end
 
   def set_adjoined(cells)
