@@ -1,13 +1,23 @@
 class Game
+  attr_reader :settingss
+
   DEFAULT_SHIP_SET = {_1: 4, _2: 3, _3: 2, _4: 1}
   DEFAULT_SETTINGS = {board_size: 10, game_mode: :player_vs_bot, ship_set: DEFAULT_SHIP_SET}
 
   def initialize
-    @settings = DEFAULT_SETTINGS
+    @settings = Hash.new(DEFAULT_SETTINGS)
   end
 
   def run
-    menu
+    begin
+      menu
+    rescue IncorrectPlaceException
+      system('clear')
+      puts "This ship set cannot be placed on board with size #{@settings[:board_size]}"
+      print "Press any key and change settings... "
+      gets
+      retry
+    end
   end
 
   private
@@ -142,10 +152,6 @@ class Game
     player.print
   end
 
-  def install_bot_ships(bot)
-
-  end
-
   def install_ships(player)
     @settings[:ship_set].each do |decks, value|
       length = decks.to_s[1].to_i
@@ -186,6 +192,7 @@ class Game
   def menu(status = :correct)
     print_menu_prefix(status)
     print_menu
+    print_current_settings
     print_menu_postfix(status)
     case gets.chomp
     when '1'
@@ -204,6 +211,7 @@ class Game
   def settings(status = :correct)
     print_settings_prefix(status)
     print_settings
+    print_current_settings
     print_settings_postfix(status)
     case gets.chomp
     when '1'
@@ -224,7 +232,7 @@ class Game
   def board_size
     print_board_size
     size = gets.chomp.to_i
-    @settings = size <= 20 ? size : 20
+    @settings[:board_size] = size <= 20 ? size : 20
     settings(:board_size_updated)
   end
 
@@ -233,7 +241,7 @@ class Game
     4.times do |decks|
       decks += 1
       puts "How many #{decks}-deck ships do you want?"
-      @settings[:ship_set][('_' + decks.to_s).to_sym] = gets
+      @settings[:ship_set][('_' + decks.to_s).to_sym] = gets.chomp.to_i
     end
     settings(:ship_set_updated)
   end
@@ -241,14 +249,14 @@ class Game
   def game_mode(status = :correct)
     print_game_mode
     print_game_mode_postfix(status)
-    case gets
-    when "1\n"
+    case gets.chomp
+    when "1"
       @settings[:game_mode] = :bot_vs_bot
-    when "2\n"
+    when "2"
       @settings[:game_mode] = :player_vs_bot
-    when "3\n"
+    when "3"
       @settings[:game_mode] = :player_vs_player
-    when "0\n"
+    when "0"
       settings
     else
       game_mode(:incorrect)
@@ -357,5 +365,24 @@ class Game
     print 'Press any key to return to main menu... '
     gets
     menu
+  end
+
+  def print_current_settings
+    puts 'Current settings:'
+    game_mode = case @settings[:game_mode]
+                when :player_vs_bot
+                  'Player vs Bot'
+                when :bot_vs_bot
+                  'Bot vs Bot'
+                else
+                  'Player vs Player'
+                end
+    puts "Game mode: #{game_mode}"
+    puts "Board size: #{@settings[:board_size]}"
+    puts 'Set of ships:'
+    puts "    4-deck: #{@settings[:ship_set][:_4]}"
+    puts "    3-deck: #{@settings[:ship_set][:_3]}"
+    puts "    2-deck: #{@settings[:ship_set][:_2]}"
+    puts "    1-deck: #{@settings[:ship_set][:_1]}"
   end
 end
