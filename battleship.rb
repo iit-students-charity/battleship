@@ -9,15 +9,5 @@ require_relative 'shot'
 require_relative 'game'
 require 'faker'
 
-require 'pry'
-
 game = Game.new
 game.run
-
-
-# backs
-# beautify
-#
-# remove pry
-# tests ?
-# readme

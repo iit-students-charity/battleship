@@ -241,7 +241,6 @@ class Game
   def menu(status = :correct)
     print_menu_prefix(status)
     print_menu
-    print_current_settings
     print_menu_postfix(status)
     case gets.chomp
     when '1'
@@ -314,14 +313,16 @@ class Game
   end
 
   def default_settings
-    @settings = DEFAULT_SETTINGS
+    @settings = DEFAULT_SETTINGS.clone
     settings(:default_settings_set)
   end
 
   def print_menu
-    puts('1 | Start')
-    puts('2 | Settings')
-    puts('0 | Exit')
+    puts '+----------------------------------------+'
+    puts('| 1 | Start')
+    puts('| 2 | Settings')
+    puts('| 0 | Exit')
+    puts '+----------------------------------------+'
   end
 
   def print_menu_prefix(status)
@@ -339,11 +340,13 @@ class Game
   end
 
   def print_settings
-    puts('1 | Set board size')
-    puts('2 | Choose a set of ships')
-    puts('3 | Choose game mode')
-    puts('4 | Return to default settings')
-    puts('0 | Back')
+    puts '+----------------------------------------+'
+    puts('| 1 | Set board size')
+    puts('| 2 | Choose a set of ships')
+    puts('| 3 | Choose game mode')
+    puts('| 4 | Return to default settings')
+    puts('| 0 | Back')
+    puts '+----------------------------------------+'
   end
 
   def print_settings_prefix(status)
@@ -369,10 +372,10 @@ class Game
   def print_game_mode
     system('clear')
     puts 'Choose game mode:'
-    puts '1 | Bot vs Bot'
-    puts '2 | Player vs Bot'
-    puts '3 | Player vs Player'
-    puts '0 | Back'
+    puts '| 1 | Bot vs Bot'
+    puts '| 2 | Player vs Bot'
+    puts '| 3 | Player vs Player'
+    puts '| 0 | Back'
   end
 
   def print_game_mode_postfix(status)
@@ -418,6 +421,7 @@ class Game
 
   def print_current_settings
     puts 'Current settings:'
+    puts '+----------------------------------------+'
     game_mode = case @settings[:game_mode]
                 when :player_vs_bot
                   'Player vs Bot'
@@ -433,6 +437,7 @@ class Game
     puts "    3-deck: #{@settings[:ship_set][:_3]}"
     puts "    2-deck: #{@settings[:ship_set][:_2]}"
     puts "    1-deck: #{@settings[:ship_set][:_1]}"
+    puts '+----------------------------------------+'
   end
 
   def print_turn_away(player)
