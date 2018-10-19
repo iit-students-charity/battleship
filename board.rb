@@ -48,8 +48,8 @@ class Board
 
   def reset
     @cells = []
-    size_x.times do |x|
-      size_y.times do |y|
+    @size_x.times do |x|
+      @size_y.times do |y|
         @cells << Cell.new(x + 1, y + 1)
       end
     end

@@ -1,11 +1,11 @@
 class Game
   attr_reader :settingss
 
-  DEFAULT_SHIP_SET = {_1: 4, _2: 3, _3: 2, _4: 1}
-  DEFAULT_SETTINGS = {board_size: 10, game_mode: :player_vs_bot, ship_set: DEFAULT_SHIP_SET}
+  DEFAULT_SHIP_SET = {_1: 4, _2: 3, _3: 2, _4: 1}.freeze
+  DEFAULT_SETTINGS = {board_size: 10, game_mode: :player_vs_bot, ship_set: DEFAULT_SHIP_SET}.freeze
 
   def initialize
-    @settings = Hash.new(DEFAULT_SETTINGS)
+    @settings = DEFAULT_SETTINGS.dup
   end
 
   def run
@@ -80,7 +80,56 @@ class Game
   end
 
   def player_vs_player
-
+    @first_player = Player.new(Board.new(@settings[:board_size], @settings[:board_size]), name)
+    @second_player = Player.new(Board.new(@settings[:board_size], @settings[:board_size]), name)
+    install_player_ships(@first_player)
+    install_player_ships(@second_player)
+    turn = :first
+    loop do
+      system('clear')
+      break if @first_player.defeated? || @second_player.defeated?
+      puts "#{@first_player.name} VS #{@second_player.name}"
+      puts "#{@first_player.name} score: #{@first_player.score}"
+      puts "#{@second_player.name} score: #{@second_player.score}"
+      if turn == :first
+        @first_player.print
+        @second_player.print_hidden
+        puts "#{@first_player.name} turn:"
+        puts 'Input x coordinate to shot: '
+        x = gets.chomp.to_i
+        puts 'Input y coordinate to shot: '
+        y = gets.chomp.to_i
+        shot = @second_player.shot_on(x, y)
+        if shot.hit? || shot.destroy?
+          @first_player.increase_score
+        else
+          @first_player.decrease_score
+          turn = :second
+        end
+        turn = :first if shot.incorrect?
+        print_turn_away(@second_player) if turn == :second
+        next
+      else
+        @second_player.print
+        @first_player.print_hidden
+        puts "#{@second_player.name} turn:"
+        puts 'Input x coordinate to shot: '
+        x = gets.chomp.to_i
+        puts 'Input y coordinate to shot: '
+        y = gets.chomp.to_i
+        shot = @first_player.shot_on(x, y)
+        if shot.hit? || shot.destroy?
+          @second_player.increase_score
+        else
+          @second_player.decrease_score
+          turn = :first
+        end
+        turn = :second if shot.incorrect?
+        print_turn_away(@first_player) if turn == :first
+        next
+      end
+    end
+    @first_player.defeated? ? print_winner(@first_player) : print_winner(@second_player)
   end
 
   def bot_vs_bot
@@ -384,5 +433,14 @@ class Game
     puts "    3-deck: #{@settings[:ship_set][:_3]}"
     puts "    2-deck: #{@settings[:ship_set][:_2]}"
     puts "    1-deck: #{@settings[:ship_set][:_1]}"
+  end
+
+  def print_turn_away(player)
+    5.times do |number|
+      system('clear')
+      puts "#{player.name}, please turn away... #{5 - number}..."
+      system('sleep 1')
+    end
+    system('clear')
   end
 end
