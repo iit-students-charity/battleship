@@ -1,8 +1,8 @@
 class Game
-  attr_reader :settingss
+  attr_reader :settings
 
   DEFAULT_SHIP_SET = {_1: 4, _2: 3, _3: 2, _4: 1}.freeze
-  DEFAULT_SETTINGS = {board_size: 10, game_mode: :player_vs_bot, ship_set: DEFAULT_SHIP_SET}.freeze
+  DEFAULT_SETTINGS = {board_size: 10, game_mode: :player_vs_bot, ship_set: DEFAULT_SHIP_SET.dup}.freeze
 
   def initialize
     @settings = DEFAULT_SETTINGS.dup
@@ -313,7 +313,7 @@ class Game
   end
 
   def default_settings
-    @settings = DEFAULT_SETTINGS.clone
+    @settings = DEFAULT_SETTINGS.dup
     settings(:default_settings_set)
   end
 
