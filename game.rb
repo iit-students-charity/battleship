@@ -1,3 +1,4 @@
+# A few big methods and exception driven development :)
 class Game
   attr_reader :settings
 
