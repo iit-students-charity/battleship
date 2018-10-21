@@ -9,5 +9,4 @@ require_relative 'shot'
 require_relative 'game'
 require 'faker'
 
-game = Game.new
-game.run
+Game.new.run
