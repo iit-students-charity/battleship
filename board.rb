@@ -94,7 +94,6 @@ class Board
           shots << [shot.cell.x - 1, last_hits.first.cell.y] if shot.cell.x > 1
         end
       end
-      binding.pry if shots.map(&:last).include?(0)
       shots.sample
     else
       successful_shots.last.cell.surrounding_coordinates.sample
