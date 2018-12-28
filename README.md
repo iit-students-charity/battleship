@@ -1,7 +1,12 @@
 # battleship
 
-It is a console battleship game on Ruby, created as a lab work in BSUIR
+It is a console battleship game on Ruby, created as a lab work in BSUIR.
 
 **Usage**
 
-battleship.rb - the main file with a game
+```bash
+bundle install
+ruby battleship.rb
+```
+
+It don't have any non-console UI, but you can make two bots play with each other :)
