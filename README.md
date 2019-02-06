@@ -5,6 +5,7 @@ It is a console battleship game on Ruby, created as a lab work in BSUIR.
 **Usage**
 
 ```bash
+gem install bundler
 bundle install
 ruby battleship.rb
 ```
